@@ -1,0 +1,32 @@
+VIKRAM SINGH
+Email: vikram.singh.data@outlook.com
+Phone: +91 99887 76655
+Location: Delhi, India
+
+PROFESSIONAL SUMMARY
+Data Engineer with 3 years of experience specializing in SQL databases, data pipelines, ETL tools, and Python scripting.
+
+WORK EXPERIENCE
+
+Data Engineer | Analytics Hub
+Oct 2021 - Present | Gurgaon
+- Created automated ETL pipelines using Python and SQL scripts.
+- Designed database schemas for large analytics storage clusters.
+- Migrated legacy data pipelines from local servers to AWS S3.
+- Optimized slow SQL queries, reducing query response times by 30%.
+
+EDUCATION
+B.Sc in Mathematics & Computer Science
+Delhi University | Graduated: 2021
+Grade: 8.0 CGPA
+
+PROJECTS
+1. Auto ETL Pipeline
+Developed a custom Python script to extract files, clean strings, and load into a local PostgreSQL database.
+Technologies: Python, PostgreSQL, SQL, cron
+
+TECHNICAL SKILLS
+Python, SQL, PostgreSQL, SQLite, ETL pipelines, AWS, Git, Data Warehousing, Database optimization
+
+LANGUAGES
+English, Hindi, Punjabi

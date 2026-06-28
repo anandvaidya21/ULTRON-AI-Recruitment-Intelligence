@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      background: radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F7F3ED 100%);
+    }
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-logo span {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+    }
+    .demo-info {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box card fade-in-up">
+      <div class="login-logo">
+        <span class="brand-title">ULTRON AI</span>
+        <p style="color: var(--text-light); margin-top: 0.25rem;">Enterprise Workspace Login</p>
+      </div>
+
+      <div class="demo-info">
+        🔑 <strong>Hackathon Demo Credentials:</strong><br>
+        Email: <code>recruiter@ultron.ai</code><br>
+        Password: <code>password123</code>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="name@company.com" required value="recruiter@ultron.ai">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required value="password123">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="login-btn">
+          Sign In
+        </button>
+      </form>
+      
+      <p style="text-align: center; font-size: 0.85rem; color: var(--text-light); margin-top: 1.5rem;">
+        Hiring intelligently using Semantic AI.
+      </p>
+    </div>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('login-btn');
+      
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+
+      try {
+        // Try to log in. In a fresh DB, this might fail if the user doesn't exist.
+        // We will attempt to register first if login fails, or just login.
+        let data;
+        try {
+          data = await APIClient.post('/auth/login', { email, password });
+        } catch (err) {
+          // If login fails, try automatic registration for first-time use
+          if (err.message.includes('Incorrect email or password') || err.message.includes('401')) {
+            throw err; // Real credential failure
+          }
+          // Attempt registration
+          await APIClient.post('/auth/register', {
+            email,
+            full_name: 'Lead Recruiter',
+            password,
+            company: 'Redrob AI'
+          });
+          data = await APIClient.post('/auth/login', { email, password });
+        }
+        
+        Auth.saveSession(data.access_token, data.user);
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        alert(error.message || 'Login failed. Please check credentials.');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

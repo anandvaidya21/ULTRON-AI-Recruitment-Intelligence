@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar will be loaded here dynamically via JS -->
+    
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Recruiter Dashboard</h1>
+          <p>Real-time talent tracking & recruitment intelligence insights.</p>
+        </div>
+        <div class="header-actions">
+          <a href="upload-resume.html" class="btn btn-primary">+ Upload Resumes</a>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="grid-cols-4" style="margin-bottom: 2rem;">
+        <div class="card">
+          <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: bold;">Total Jobs</div>
+          <div style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem;" id="kpi-jobs">-</div>
+        </div>
+        <div class="card">
+          <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: bold;">Candidates Pool</div>
+          <div style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem;" id="kpi-candidates">-</div>
+        </div>
+        <div class="card">
+          <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: bold;">Matches Evaluated</div>
+          <div style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem;" id="kpi-matches">-</div>
+        </div>
+        <div class="card">
+          <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); font-weight: bold;">Avg Match Score</div>
+          <div style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem;" id="kpi-avg-score">-</div>
+        </div>
+      </div>
+
+      <!-- Main Panels -->
+      <div class="grid-cols-2" style="margin-bottom: 2rem;">
+        <!-- AI Insights -->
+        <div class="card" style="display: flex; flex-direction: column;">
+          <div class="card-header">
+            <h3>AI Recruiting Insights</h3>
+            <span class="badge badge-primary">Dynamic</span>
+          </div>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 1rem;" id="ai-insights-list">
+            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+            <div class="skeleton skeleton-text" style="width: 90%;"></div>
+            <div class="skeleton skeleton-text" style="width: 70%;"></div>
+          </div>
+        </div>
+
+        <!-- Top Matches -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Top Semantic Matches</h3>
+            <a href="rankings.html" style="font-size: 0.85rem; color: var(--primary-color); text-decoration: none; font-weight: bold;">View Rankings</a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem;" id="top-matches-list">
+            <p style="color: var(--text-light);">Loading matches...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Uploads Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Recent Candidate Uploads</h3>
+          <a href="candidates.html" class="btn btn-secondary">Manage Candidates</a>
+        </div>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Candidate Name</th>
+                <th>Email Address</th>
+                <th>Current Role</th>
+                <th>Experience</th>
+                <th>Uploaded At</th>
+              </tr>
+            </thead>
+            <tbody id="recent-resumes-table">
+              <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-light);">Loading recent activity...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script src="static/js/dashboard.js"></script>
+</body>
+</html>

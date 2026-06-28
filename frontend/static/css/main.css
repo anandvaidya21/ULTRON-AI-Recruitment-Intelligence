@@ -1,0 +1,222 @@
+/*
+ULTRON AI – Modern Design Tokens & Base Theme
+Brand rules:
+- Logo "ULTRON AI" must use "Times New Roman"
+- All other application text must use "Helvetica"
+- Color palette: Brown, Beige, Cream, Sand, Coffee, Gold, Light Gray, White, Dark Brown
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+  /* Warm Premium Palette */
+  --bg-color: #F7F3ED;         /* Cream / Soft Beige background */
+  --card-bg: #FFFDF9;          /* Rich Sand/White card base */
+  --primary-color: #6F4E37;    /* Warm Coffee / Deep Brown */
+  --accent-color: #A67C52;     /* Gold Accent / Medium Sand */
+  --secondary-color: #DCC7AA;  /* Light Sand / Cream Accent */
+  --text-dark: #2E2A27;        /* Charcoal / Soft Black */
+  --text-light: #6E6863;       /* Muted Gray-Brown */
+  --border-color: #E6DFD5;     /* Warm outline gray */
+  --shadow-sm: 0 2px 8px rgba(111, 78, 55, 0.05);
+  --shadow-md: 0 8px 24px rgba(111, 78, 55, 0.08);
+  --shadow-lg: 0 16px 40px rgba(111, 78, 55, 0.12);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius: 12px;
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: 'Times New Roman', Times, serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------
+   Typography Brand Enforcement
+   ------------------------------------------------------------------ */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* Enforce Times New Roman only on ULTRON AI branding */
+.brand-title {
+  font-family: var(--font-serif) !important;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Enforce Helvetica everywhere else */
+body, button, input, select, textarea, span, p, a, div, li, td, th {
+  font-family: var(--font-sans);
+}
+
+/* ------------------------------------------------------------------
+   Structure & Layout
+   ------------------------------------------------------------------ */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 260px;
+  background-color: var(--card-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.sidebar-logo span {
+  font-size: 1.6rem;
+}
+
+.sidebar-logo img {
+  height: 32px;
+  width: auto;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  color: var(--text-light);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.nav-item a:hover {
+  background-color: #F7F3ED;
+  color: var(--primary-color);
+}
+
+.nav-item.active a {
+  background-color: var(--primary-color);
+  color: #FFF;
+}
+
+.nav-item a svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+.sidebar-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.user-profile-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Main Content Wrapper */
+.main-wrapper {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+}
+
+/* Header dashboard panel */
+.header-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-title h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.header-title p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Mobile Nav (Responsive) */
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: var(--transition);
+  }
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+    padding: 1.5rem;
+  }
+}

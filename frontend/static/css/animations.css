@@ -1,0 +1,113 @@
+/*
+ULTRON AI – Page Transitions and Micro-animations
+Creates responsive feel, active transitions, and smooth hover effects.
+*/
+
+/* Page Load Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Skeleton Loading pulse */
+@keyframes pulse {
+  0% {
+    background-color: #F3ECE2;
+  }
+  50% {
+    background-color: #EDE4D8;
+  }
+  100% {
+    background-color: #F3ECE2;
+  }
+}
+
+.skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  height: 16px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.skeleton-title {
+  height: 24px;
+  margin-bottom: 16px;
+  width: 50%;
+}
+
+/* Progress Bar fill animations */
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  animation: fillProgress 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Chat bubble entry */
+@keyframes chatBubbleEntry {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chat-bubble {
+  animation: chatBubbleEntry 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Floating animation for UI wow factors */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating-icon {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(111, 78, 55, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

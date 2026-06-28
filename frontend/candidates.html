@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidates Pool – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Candidates Pool</h1>
+          <p>Explore parsed candidate profiles, filter by skills, experience, or role.</p>
+        </div>
+      </div>
+
+      <!-- Filters Panel -->
+      <div class="card" style="margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: flex-end;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Search Candidates</label>
+          <input type="text" id="search-input" class="form-control" placeholder="Search by name, role, email...">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Experience Filter</label>
+          <select id="experience-filter" class="form-control">
+            <option value="all">All Experience Levels</option>
+            <option value="junior">Junior (0-2 Years)</option>
+            <option value="mid">Mid (3-5 Years)</option>
+            <option value="senior">Senior (6+ Years)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Key Skill Match</label>
+          <input type="text" id="skill-input" class="form-control" placeholder="e.g. Python, Docker">
+        </div>
+        <div>
+          <button id="filter-btn" class="btn btn-secondary" style="width: 100%;">Apply Filters</button>
+        </div>
+      </div>
+
+      <!-- Candidate Grid -->
+      <div class="grid-cols-2" id="candidates-container">
+        <p style="color: var(--text-light); text-align: center; grid-column: span 2; padding: 3rem;">Loading candidate database...</p>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script src="static/js/candidates.js"></script>
+</body>
+</html>

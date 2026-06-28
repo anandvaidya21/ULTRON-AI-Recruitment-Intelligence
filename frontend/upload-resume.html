@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Resumes – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <style>
+    .upload-zone {
+      border: 2px dashed var(--accent-color);
+      border-radius: var(--border-radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      background-color: var(--card-bg);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 2rem;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--primary-color);
+      background-color: #FAF6F0;
+    }
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--accent-color);
+    }
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .file-item {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .progress-bar-container {
+      width: 120px;
+      height: 6px;
+      background-color: var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Upload Candidate Resumes</h1>
+          <p>Drag and drop multiple resumes (.pdf, .docx, .txt) to parse them into candidate profiles.</p>
+        </div>
+      </div>
+
+      <!-- Drag & Drop Zone -->
+      <div class="upload-zone" id="drop-zone">
+        <input type="file" id="file-input" multiple accept=".pdf,.docx,.txt" style="display: none;">
+        <div class="upload-icon">📁</div>
+        <h3>Drag & Drop files here or click to select</h3>
+        <p style="color: var(--text-light); margin-top: 0.5rem; font-size: 0.9rem;">Supports PDF, DOCX, and TXT. Max file size: 10MB per file.</p>
+      </div>
+
+      <!-- Upload Actions -->
+      <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <h3>Selected Files (<span id="file-count">0</span>)</h3>
+        <div style="display: flex; gap: 1rem;">
+          <button id="upload-all-btn" class="btn btn-primary" disabled>Process Resumes (AI Parse)</button>
+          <button id="clear-all-btn" class="btn btn-secondary" disabled>Clear List</button>
+        </div>
+      </div>
+
+      <!-- Selected File List -->
+      <div class="file-list" id="files-container">
+        <p style="color: var(--text-light); text-align: center; padding: 2rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--card-bg);">No files selected.</p>
+      </div>
+
+      <!-- Navigation Actions -->
+      <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 1rem;">
+        <a href="candidates.html" class="btn btn-secondary">View Candidates Pool</a>
+        <button id="run-analysis-btn" class="btn btn-primary" disabled>Run Semantic Matching Engine</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Utils.loadSidebar('upload-resume');
+
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('file-input');
+      const filesContainer = document.getElementById('files-container');
+      const fileCountText = document.getElementById('file-count');
+      
+      const uploadAllBtn = document.getElementById('upload-all-btn');
+      const clearAllBtn = document.getElementById('clear-all-btn');
+      const runAnalysisBtn = document.getElementById('run-analysis-btn');
+
+      let selectedFiles = [];
+
+      // 1. Drag & Drop events
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+          addFiles(e.dataTransfer.files);
+        }
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          addFiles(e.target.files);
+        }
+      });
+
+      function addFiles(filesList) {
+        for (let i = 0; i < filesList.length; i++) {
+          const file = filesList[i];
+          // Simple validation
+          const ext = file.name.split('.').pop().toLowerCase();
+          if (!['pdf', 'docx', 'txt'].includes(ext)) {
+            alert(`File format unsupported: ${file.name}`);
+            continue;
+          }
+          if (selectedFiles.some(f => f.file.name === file.name)) {
+            continue; // Deduplicate locally
+          }
+          selectedFiles.push({
+            file: file,
+            status: 'pending', // pending, uploading, success, error
+            progress: 0,
+            response: null
+          });
+        }
+        renderFileList();
+      }
+
+      function renderFileList() {
+        if (selectedFiles.length === 0) {
+          filesContainer.innerHTML = `
+            <p style="color: var(--text-light); text-align: center; padding: 2rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--card-bg);">No files selected.</p>
+          `;
+          fileCountText.textContent = '0';
+          uploadAllBtn.disabled = true;
+          clearAllBtn.disabled = true;
+          return;
+        }
+
+        filesContainer.innerHTML = '';
+        fileCountText.textContent = selectedFiles.length;
+        uploadAllBtn.disabled = false;
+        clearAllBtn.disabled = false;
+
+        selectedFiles.forEach((fileObj, idx) => {
+          let statusBadge = '';
+          if (fileObj.status === 'pending') {
+            statusBadge = '<span class="badge badge-primary">Pending</span>';
+          } else if (fileObj.status === 'uploading') {
+            statusBadge = `
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" style="width: ${fileObj.progress}%;"></div>
+                </div>
+                <span style="font-size: 0.8rem; color: var(--text-light);">${fileObj.progress}%</span>
+              </div>
+            `;
+          } else if (fileObj.status === 'success') {
+            statusBadge = '<span class="badge badge-success">Parsed (AI)</span>';
+          } else if (fileObj.status === 'error') {
+            statusBadge = '<span class="badge badge-warning">Failed</span>';
+          }
+
+          filesContainer.insertAdjacentHTML('beforeend', `
+            <div class="file-item fade-in-up">
+              <div>
+                <strong style="color: var(--text-dark);">${fileObj.file.name}</strong>
+                <div style="font-size: 0.8rem; color: var(--text-light);">${(fileObj.file.size / 1024).toFixed(1)} KB</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                ${statusBadge}
+                ${fileObj.status === 'pending' ? `<button class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="removeFile(${idx})">✕ Remove</button>` : ''}
+              </div>
+            </div>
+          `);
+        });
+      }
+
+      window.removeFile = function(idx) {
+        selectedFiles.splice(idx, 1);
+        renderFileList();
+      };
+
+      clearAllBtn.addEventListener('click', () => {
+        selectedFiles = [];
+        renderFileList();
+      });
+
+      // 2. Upload and parse resumes
+      uploadAllBtn.addEventListener('click', async () => {
+        uploadAllBtn.disabled = true;
+        clearAllBtn.disabled = true;
+        
+        for (let i = 0; i < selectedFiles.length; i++) {
+          if (selectedFiles[i].status !== 'pending') continue;
+
+          selectedFiles[i].status = 'uploading';
+          selectedFiles[i].progress = 30;
+          renderFileList();
+
+          const formData = new FormData();
+          formData.append('file', selectedFiles[i].file);
+
+          try {
+            selectedFiles[i].progress = 60;
+            renderFileList();
+            
+            const response = await APIClient.upload('/resumes/upload', formData);
+            
+            selectedFiles[i].status = 'success';
+            selectedFiles[i].progress = 100;
+            selectedFiles[i].response = response;
+          } catch (err) {
+            console.error(err);
+            selectedFiles[i].status = 'error';
+          }
+          renderFileList();
+        }
+
+        uploadAllBtn.disabled = false;
+        clearAllBtn.disabled = false;
+
+        // Enable analysis run button if at least one file succeeded
+        if (selectedFiles.some(f => f.status === 'success')) {
+          runAnalysisBtn.disabled = false;
+        }
+      });
+
+      // 3. Trigger Semantic Matching Engine
+      runAnalysisBtn.addEventListener('click', async () => {
+        const jobId = Auth.getActiveJob();
+        if (!jobId) {
+          alert('No active Job Requirement set! Please upload or select a job description first.');
+          window.location.href = 'upload-job.html';
+          return;
+        }
+
+        runAnalysisBtn.disabled = true;
+        runAnalysisBtn.textContent = 'Executing semantic similarity engine...';
+
+        try {
+          // POST /analyze triggers semantic calculations
+          await APIClient.post('/analyze', { job_id: parseInt(jobId) });
+          window.location.href = `rankings.html`;
+        } catch (error) {
+          alert(error.message || 'Failed to execute semantic evaluation.');
+          runAnalysisBtn.disabled = false;
+          runAnalysisBtn.textContent = 'Run Semantic Matching Engine';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

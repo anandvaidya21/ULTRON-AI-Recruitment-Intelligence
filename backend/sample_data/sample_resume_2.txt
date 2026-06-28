@@ -1,0 +1,37 @@
+NEHA PATEL
+Email: neha.patel@gmail.com
+Phone: +91 91234 56789
+Location: Pune, India
+GitHub: https://github.com/neha-patel-dev
+
+PROFESSIONAL SUMMARY
+Junior Frontend Developer with 1.5 years of experience focusing on React and interactive UI components. Keen to learn backend integration technologies.
+
+WORK EXPERIENCE
+
+Associate UI Developer | Web Solutions Co
+August 2023 - Present | Pune
+- Developed responsive web landing pages using HTML, CSS, JavaScript, and React.
+- Collaborated with UX designers to translate Figma design files into code.
+- Fixed front-end layout bugs across cross-browser environments.
+
+Intern Developer | Startup Incubator
+Feb 2023 - July 2023 | Pune
+- Worked on simple web layouts using HTML and CSS.
+- Implemented state management using React hooks.
+
+PROJECTS
+1. Personal Portfolio Website (GitHub: https://github.com/neha-patel-dev/portfolio)
+Designed a premium dark mode portfolio website to showcase design templates.
+Technologies: React, CSS, HTML5
+
+EDUCATION
+B.E. in Electronics & Communication
+Pune University | Graduated: 2023
+Grade: 7.8 CGPA
+
+TECHNICAL SKILLS
+HTML5, CSS3, JavaScript, React, Tailwind CSS, Git, Figma, Web Development
+
+LANGUAGES
+English, Marathi, Hindi

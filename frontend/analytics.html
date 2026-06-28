@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <!-- ChartJS CDN integration -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Analytics & Talent Metrics</h1>
+          <p>Visual statistics and data distributions of the uploaded candidate pool.</p>
+        </div>
+      </div>
+
+      <!-- Quick summary cards -->
+      <div class="grid-cols-2" style="margin-bottom: 2rem; gap: 1.5rem;">
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <h3>Open Source Contribution Ratio</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem;">Candidates with active GitHub connections.</p>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: bold; color: var(--primary-color);" id="github-percentage">0%</div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <h3>Cloud & DevOps Competence</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem;">Candidates with deployment/infra experience.</p>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: bold; color: var(--primary-color);" id="devops-percentage">0%</div>
+        </div>
+      </div>
+
+      <!-- Charts grid -->
+      <div class="grid-cols-2" style="margin-bottom: 2rem; gap: 1.5rem;">
+        <!-- Skill distribution -->
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">Top Core Skills</h3>
+          <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="skillsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Score distributions -->
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">Overall Candidate Score Distribution</h3>
+          <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="scoresChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-cols-2" style="gap: 1.5rem;">
+        <!-- Experience breakdown -->
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">Experience Levels Distribution</h3>
+          <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="experienceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Academic distribution -->
+        <div class="card">
+          <h3 style="margin-bottom: 1rem;">Academic Credentials Breakdown</h3>
+          <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="educationChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script src="static/js/analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+Job Title: Full Stack Engineer (Python & React)
+Company: Redrob AI
+Location: Bangalore / Remote
+Employment Type: Full-Time
+Experience Required: 3-5 years
+
+About us:
+Redrob AI is a recruitment technology startup building next-generation cognitive assessment tools. We match candidates based on skills, code quality, and project experience rather than simple keyword matches.
+
+Role Responsibilities:
+- Build modular REST APIs and backend routers using Python and FastAPI.
+- Design responsive, interactive recruiters workspaces using HTML, modern CSS, and React.
+- Integrate local vector embeddings models (sentence-transformers) and LLM endpoints.
+- Package software components into Docker containers and deploy to AWS.
+- Participate in database optimization (SQLite / PostgreSQL configurations).
+
+Requirements:
+- Strong programming experience in Python (at least 3 years).
+- Experience with FastAPI, Django, or Flask frameworks.
+- Frontend development experience with JavaScript, CSS, HTML, and React.
+- Understanding of SQL databases and schema design.
+- Hands-on experience with Docker containerization.
+- Bachelor's degree in Computer Science or Electronics engineering.
+- Excellent communication and collaborative team skills.

@@ -1,0 +1,44 @@
+ARAVIND SHARMA
+Email: aravind.sharma@gmail.com
+Phone: +91 98765 43210
+Location: Bangalore, India
+GitHub: https://github.com/aravind-sharma
+LinkedIn: https://linkedin.com/in/aravind-sharma-dev
+
+PROFESSIONAL SUMMARY
+Senior Full Stack Engineer with 4.5 years of experience building scalable backend APIs and responsive user interfaces. Specializes in Python, FastAPI, and React. Active open-source contributor and Hackathon winner.
+
+WORK EXPERIENCE
+
+Senior Software Engineer | Redrob AI
+July 2022 - Present | Bangalore
+- Designed and built the semantic matching engine using Python and FastAPI, improving match speed by 40%.
+- Developed clean, responsive front-end dashboard panels using React and Tailwind CSS.
+- Containerized all microservices with Docker and deployed them to AWS ECS using CI/CD pipelines.
+- Integrated SQLite database schemas and prepared transition pipelines for PostgreSQL migration.
+
+Software Engineer | FinTech Labs
+Jan 2020 - June 2022 | Mumbai
+- Built secure payment integration APIs using Python and Django.
+- Developed dashboards for financial analytics with React.
+- Wrote unit tests achieving 90% code coverage.
+
+PROJECTS
+1. Semantic ATS (GitHub: https://github.com/aravind-sharma/semantic-ats)
+Built an open-source parsing tool for resumes using sentence-transformers and FastAPI.
+Technologies: Python, FastAPI, SQLite, Docker
+
+2. Real-time Crypto Dashboard
+Created a live cryptocurrency tracker displaying live metrics.
+Technologies: React, Node.js, WebSockets
+
+EDUCATION
+B.Tech in Computer Science
+Visvesvaraya Technological University (VTU) | Graduated: 2019
+Grade: 8.2 CGPA
+
+TECHNICAL SKILLS
+Python, JavaScript, TypeScript, FastAPI, React, Django, Docker, AWS, PostgreSQL, SQLite, Git, CI/CD, Rest APIs
+
+LANGUAGES
+English, Hindi, Kannada

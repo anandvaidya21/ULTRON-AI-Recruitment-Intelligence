@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Details – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <style>
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid var(--border-color);
+      margin-left: 1rem;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-marker {
+      position: absolute;
+      left: -2.6rem;
+      top: 0.25rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      border: 3px solid var(--card-bg);
+    }
+    .grid-profile {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 992px) {
+      .grid-profile {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1 id="cand-name">Loading Profile...</h1>
+          <p id="cand-headline">Retrieving parsed profile configurations...</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" id="download-resume-btn" class="btn btn-secondary">📥 Download Original Resume</a>
+        </div>
+      </div>
+
+      <div class="grid-profile">
+        <!-- Sidebar: Basic Info & AI Analysis summary -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Basic details card -->
+          <div class="card">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+              <div class="user-avatar" style="width: 72px; height: 72px; font-size: 2.2rem; margin: 0 auto 1rem;" id="profile-avatar">C</div>
+              <h3 id="profile-name">-</h3>
+              <p style="color: var(--text-light); font-size: 0.85rem;" id="profile-location">-</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+              <div><strong>Email:</strong><div id="profile-email" style="word-break: break-all;">-</div></div>
+              <div><strong>Phone:</strong><div id="profile-phone">-</div></div>
+              <div><strong>Experience:</strong><div id="profile-exp">-</div></div>
+              <div><strong>Career Level:</strong><div id="profile-level">-</div></div>
+              <div id="links-container" style="display: flex; gap: 0.5rem; margin-top: 0.5rem;"></div>
+            </div>
+          </div>
+
+          <!-- AI Match Card (Job Specific) -->
+          <div class="card" id="ai-match-card" style="display: none;">
+            <div class="card-header">
+              <h3>AI Match Status</h3>
+              <div class="score-badge high" id="match-score">-</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+              <div>
+                <strong>Interview Recommendation:</strong>
+                <p id="prev-interview-rec" style="font-size: 0.85rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+              </div>
+              <div>
+                <strong>Hiring Recommendation:</strong>
+                <p id="prev-hiring-rec" style="font-size: 0.85rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+              </div>
+              <div>
+                <strong>Confidence Score:</strong>
+                <span id="prev-confidence">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Explainable AI Details -->
+          <div class="card" id="explainable-ai-section" style="display: none;">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Cognitive AI Assessment</h3>
+            <div style="margin-bottom: 1.5rem;">
+              <strong>Why ranked here:</strong>
+              <p id="analysis-reason" style="font-size: 0.95rem; margin-top: 0.25rem;"></p>
+            </div>
+            
+            <div class="grid-cols-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+              <div>
+                <strong style="color: #2E7D32;">🎯 Key Strengths:</strong>
+                <ul id="analysis-strengths" style="margin-top: 0.5rem; padding-left: 1.25rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem;"></ul>
+              </div>
+              <div>
+                <strong style="color: #C62828;">⚠️ Gaps & Risks:</strong>
+                <ul id="analysis-weaknesses" style="margin-top: 0.5rem; padding-left: 1.25rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem;"></ul>
+              </div>
+            </div>
+
+            <div>
+              <strong>Missing Technical Skills:</strong>
+              <div id="analysis-missing-skills" style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;"></div>
+            </div>
+          </div>
+
+          <!-- Professional Summary -->
+          <div class="card">
+            <h3 style="margin-bottom: 1rem;">Professional Summary</h3>
+            <p id="profile-summary">-</p>
+          </div>
+
+          <!-- Skills list -->
+          <div class="card">
+            <h3 style="margin-bottom: 1rem;">Core Competencies & Skills</h3>
+            <div id="skills-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+          </div>
+
+          <!-- Timeline: Work Experience -->
+          <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Career Timeline (Work Experience)</h3>
+            <div class="timeline" id="experience-timeline">
+              <p style="color: var(--text-light);">No experience listed.</p>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Projects & Open Source Contributions</h3>
+            <div id="projects-container" style="display: flex; flex-direction: column; gap: 1rem;">
+              <p style="color: var(--text-light);">No projects listed.</p>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Academic Background</h3>
+            <div id="education-container" style="display: flex; flex-direction: column; gap: 1rem;">
+              <p style="color: var(--text-light);">No education details.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Find query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const candidateId = urlParams.get('id');
+      const jobId = urlParams.get('job_id') || Auth.getActiveJob();
+
+      if (!candidateId) {
+        alert('Invalid Candidate ID');
+        window.location.href = 'candidates.html';
+        return;
+      }
+
+      Utils.loadSidebar('candidates');
+
+      const downloadBtn = document.getElementById('download-resume-btn');
+      downloadBtn.href = `http://localhost:8000/api/candidates/${candidateId}/download-resume`;
+
+      try {
+        // 1. Get Candidate profile
+        const candidate = await APIClient.get(`/candidates/${candidateId}`);
+        const profile = candidate.parsed_profile || {};
+
+        document.getElementById('cand-name').textContent = candidate.name;
+        document.getElementById('cand-headline').textContent = profile.current_role || 'Candidate Profile';
+        
+        document.getElementById('profile-avatar').textContent = candidate.name.charAt(0).toUpperCase();
+        document.getElementById('profile-name').textContent = candidate.name;
+        document.getElementById('profile-location').textContent = profile.location || 'Location not specified';
+        
+        document.getElementById('profile-email').textContent = candidate.email || 'N/A';
+        document.getElementById('profile-phone').textContent = candidate.phone || 'N/A';
+        document.getElementById('profile-exp').textContent = Utils.getExperienceText(profile.total_experience_years);
+        document.getElementById('profile-level').textContent = profile.career_level || 'Mid-level';
+        document.getElementById('profile-summary').textContent = profile.summary || 'Professional summary not provided.';
+
+        // Populate links
+        const linksCont = document.getElementById('links-container');
+        if (candidate.github_url) {
+          linksCont.insertAdjacentHTML('beforeend', `<a href="${candidate.github_url}" target="_blank" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">GitHub</a>`);
+        }
+        if (candidate.linkedin_url) {
+          linksCont.insertAdjacentHTML('beforeend', `<a href="${candidate.linkedin_url}" target="_blank" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">LinkedIn</a>`);
+        }
+        if (candidate.portfolio_url) {
+          linksCont.insertAdjacentHTML('beforeend', `<a href="${candidate.portfolio_url}" target="_blank" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Portfolio</a>`);
+        }
+
+        // Skills
+        const skillsList = document.getElementById('skills-list');
+        skillsList.innerHTML = '';
+        const allSkills = [...new Set([...(profile.skills || []), ...(profile.technical_skills || [])])];
+        if (allSkills.length > 0) {
+          allSkills.forEach(s => {
+            skillsList.insertAdjacentHTML('beforeend', `<span class="badge badge-primary">${s}</span>`);
+          });
+        } else {
+          skillsList.innerHTML = '<span style="color: var(--text-light);">No skills listed.</span>';
+        }
+
+        // Experience Timeline
+        const timeline = document.getElementById('experience-timeline');
+        timeline.innerHTML = '';
+        if (profile.experience && profile.experience.length > 0) {
+          profile.experience.forEach(exp => {
+            timeline.insertAdjacentHTML('beforeend', `
+              <div class="timeline-item fade-in-up">
+                <div class="timeline-marker"></div>
+                <h4 style="color: var(--primary-color);">${exp.role}</h4>
+                <div style="font-weight: 600; font-size: 0.9rem;">${exp.company} | <span style="color: var(--text-light); font-weight: normal;">${exp.duration || 'Duration not specified'}</span></div>
+                <p style="font-size: 0.9rem; color: var(--text-dark); margin-top: 0.5rem;">${exp.description || ''}</p>
+              </div>
+            `);
+          });
+        } else {
+          timeline.innerHTML = '<p style="color: var(--text-light);">No work experience parsed from resume.</p>';
+        }
+
+        // Projects
+        const projectsContainer = document.getElementById('projects-container');
+        projectsContainer.innerHTML = '';
+        if (profile.projects && profile.projects.length > 0) {
+          profile.projects.forEach(proj => {
+            const techs = proj.technologies ? proj.technologies.map(t => `<span class="badge badge-primary" style="font-size: 0.7rem;">${t}</span>`).join(' ') : '';
+            projectsContainer.insertAdjacentHTML('beforeend', `
+              <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--border-radius); background-color: #FAF9F6;" class="fade-in-up">
+                <h4 style="color: var(--primary-color); display: flex; justify-content: space-between;">
+                  ${proj.name}
+                  ${proj.url ? `<a href="${proj.url}" target="_blank" style="font-size: 0.75rem; text-decoration: none; color: var(--accent-color);">Link &rarr;</a>` : ''}
+                </h4>
+                <p style="font-size: 0.9rem; color: var(--text-dark); margin: 0.5rem 0;">${proj.description || ''}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem;">${techs}</div>
+              </div>
+            `);
+          });
+        } else {
+          projectsContainer.innerHTML = '<p style="color: var(--text-light);">No projects listed.</p>';
+        }
+
+        // Education
+        const eduContainer = document.getElementById('education-container');
+        eduContainer.innerHTML = '';
+        if (profile.education && profile.education.length > 0) {
+          profile.education.forEach(edu => {
+            eduContainer.insertAdjacentHTML('beforeend', `
+              <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--border-radius); background-color: #FAF9F6;" class="fade-in-up">
+                <h4 style="color: var(--primary-color);">${edu.degree || 'Degree'}</h4>
+                <div style="font-size: 0.9rem; font-weight: bold;">${edu.institution || 'University'} | <span style="color: var(--text-light); font-weight: normal;">${edu.year || ''}</span></div>
+                ${edu.grade ? `<div style="font-size: 0.85rem; color: var(--text-dark); margin-top: 0.25rem;">Grade: ${edu.grade}</div>` : ''}
+              </div>
+            `);
+          });
+        } else {
+          eduContainer.innerHTML = '<p style="color: var(--text-light);">No academic qualifications listed.</p>';
+        }
+
+        // 2. Fetch AI Score details if Job ID is available
+        if (jobId) {
+          try {
+            // Find analysis details for candidate
+            const rankingsData = await APIClient.get(`/rankings/${jobId}`);
+            const matchRecord = rankingsData.rankings.find(r => r.candidate_id == candidateId);
+            
+            if (matchRecord) {
+              const expData = matchRecord.explainability || {};
+              const scoreClass = Utils.getScoreClass(matchRecord.overall_score);
+              
+              // Show AI card
+              const matchCard = document.getElementById('ai-match-card');
+              const matchScore = document.getElementById('match-score');
+              matchCard.style.display = 'block';
+              matchScore.className = `score-badge ${scoreClass}`;
+              matchScore.textContent = `${matchRecord.overall_score.toFixed(0)}%`;
+
+              document.getElementById('prev-interview-rec').textContent = expData.interview_recommendation || 'N/A';
+              document.getElementById('prev-hiring-rec').textContent = expData.hiring_recommendation || 'N/A';
+              document.getElementById('prev-confidence').innerHTML = `<strong style="color: var(--primary-color);">${expData.confidence_score || 0}%</strong> (AI Confidence)`;
+
+              // Show detailed explanations
+              document.getElementById('explainable-ai-section').style.display = 'block';
+              document.getElementById('analysis-reason').textContent = expData.why_ranked_here || '';
+
+              const strengthsUl = document.getElementById('analysis-strengths');
+              strengthsUl.innerHTML = '';
+              (expData.strengths || []).forEach(s => strengthsUl.insertAdjacentHTML('beforeend', `<li>${s}</li>`));
+
+              const gapsUl = document.getElementById('analysis-weaknesses');
+              gapsUl.innerHTML = '';
+              (expData.weaknesses || []).forEach(w => gapsUl.insertAdjacentHTML('beforeend', `<li>${w}</li>`));
+
+              const missingCont = document.getElementById('analysis-missing-skills');
+              missingCont.innerHTML = '';
+              if (expData.missing_skills && expData.missing_skills.length > 0) {
+                expData.missing_skills.forEach(s => {
+                  missingCont.insertAdjacentHTML('beforeend', `<span class="badge badge-warning" style="font-size: 0.75rem;">${s}</span>`);
+                });
+              } else {
+                missingCont.innerHTML = '<span style="color: var(--text-light); font-size: 0.85rem;">None! Perfect skill alignment.</span>';
+              }
+            }
+          } catch (err) {
+            console.warn('Could not load AI Match assessment details:', err);
+          }
+        }
+
+      } catch (error) {
+        console.error(error);
+        alert('Failed to load candidate details.');
+      }
+    });
+  </script>
+</body>
+</html>

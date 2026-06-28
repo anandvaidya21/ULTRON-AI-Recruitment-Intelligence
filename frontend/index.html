@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULTRON AI – Recruitment Intelligence Platform</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <style>
+    /* Unique Landing Page Specific Styling */
+    .landing-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F7F3ED 100%);
+      position: relative;
+    }
+    .landing-header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+    }
+    .hero-tag {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      padding: 0.5rem 1.25rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      color: var(--text-dark);
+      font-weight: 800;
+    }
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .feature-section {
+      padding: 6rem 2rem;
+      background-color: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .feature-card {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 2.5rem;
+      transition: var(--transition);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing-hero fade-in-up">
+    <header class="landing-header">
+      <div class="brand-title" style="font-size: 2rem; color: var(--primary-color);">ULTRON AI</div>
+      <div>
+        <a href="login.html" class="btn btn-secondary">Recruiter Login</a>
+      </div>
+    </header>
+
+    <div class="hero-tag">Recruitment Intelligence Platform</div>
+    <h1 class="hero-title">Beyond Keyword Matching.<br><span style="color: var(--primary-color);">Cognitive AI Matching.</span></h1>
+    <p class="hero-desc">
+      ULTRON AI semantically parses job descriptions and resumes, analyzing career timelines, coding profiles, and project depth to deliver explainable ranking of the best talent.
+    </p>
+    <div class="hero-buttons">
+      <a href="login.html" class="btn btn-primary">Launch Workspace</a>
+      <a href="#features" class="btn btn-secondary">Explore Features</a>
+    </div>
+  </div>
+
+  <section id="features" class="feature-section">
+    <h2 class="section-title">Engineered for Modern Enterprise Hiring</h2>
+    <div class="feature-grid">
+      
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3 style="margin-bottom: 0.75rem;">Semantic Matching Engine</h3>
+        <p style="color: var(--text-light);">Matches jobs to resumes using multi-dimensional local vector embeddings, discovering hidden competencies rather than word patterns.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3 style="margin-bottom: 0.75rem;">Explainable AI scoring</h3>
+        <p style="color: var(--text-light);">Every rank has a voice. Explains candidates' strengths, weaknesses, risk levels, and specific training gaps.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3 style="margin-bottom: 0.75rem;">AI Recruiter Assistant</h3>
+        <p style="color: var(--text-light);">A conversational chat assistant. Ask questions like "Who has deployment experience?" and get back real-time candidate insights.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer style="background-color: var(--bg-color); padding: 3rem 2rem; border-top: 1px solid var(--border-color); text-align: center;">
+    <p style="color: var(--text-light); font-size: 0.9rem;">&copy; 2026 ULTRON AI. Built for the India Runs &times; Redrob AI Hackathon.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Job Description – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Upload Job Description</h1>
+          <p>Provide requirements for semantic alignment matching.</p>
+        </div>
+      </div>
+
+      <div class="grid-cols-2">
+        <!-- Upload Form -->
+        <div class="card">
+          <h3 style="margin-bottom: 1.5rem;">Job Details</h3>
+          <form id="jd-form">
+            <div class="form-group">
+              <label class="form-label" for="job-title">Job Title</label>
+              <input type="text" id="job-title" class="form-control" placeholder="e.g. Senior Software Engineer (Python)" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="job-company">Company</label>
+              <input type="text" id="job-company" class="form-control" placeholder="e.g. Redrob AI">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="job-desc">Raw Job Description</label>
+              <textarea id="job-desc" class="form-control" placeholder="Paste full job description, required technical stack, experience, and benefits..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="jd-submit-btn">
+              Analyze JD via Cognitive AI
+            </button>
+          </form>
+        </div>
+
+        <!-- AI Parsing Preview -->
+        <div class="card" id="analysis-preview" style="display: flex; flex-direction: column; min-height: 400px;">
+          <div class="card-header">
+            <h3>AI Understanding Preview</h3>
+            <span class="badge badge-primary">Output</span>
+          </div>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-light); text-align: center;" id="preview-placeholder">
+            <span style="font-size: 3rem; margin-bottom: 1rem;">🧠</span>
+            <p>Paste/Fill the details on the left and submit.<br>ULTRON AI will extract and structure the requirements here.</p>
+          </div>
+          <div id="preview-content" style="display: none; height: 100%; overflow-y: auto;">
+            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
+              <h2 id="prev-title" style="color: var(--primary-color);">Job Title</h2>
+              <p id="prev-company" style="font-weight: bold; color: var(--text-light);"></p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <strong>Role Summary:</strong>
+                <p id="prev-summary" style="font-size: 0.95rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+              </div>
+              <div class="grid-cols-2" style="gap: 1rem;">
+                <div>
+                  <strong>Required Skills:</strong>
+                  <div id="prev-req-skills" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;"></div>
+                </div>
+                <div>
+                  <strong>Tech Stack:</strong>
+                  <div id="prev-tech-stack" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;"></div>
+                </div>
+              </div>
+              <div class="grid-cols-2" style="gap: 1rem;">
+                <div>
+                  <strong>Experience:</strong>
+                  <p id="prev-experience" style="font-size: 0.95rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+                </div>
+                <div>
+                  <strong>Education:</strong>
+                  <p id="prev-education" style="font-size: 0.95rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+                </div>
+              </div>
+              <div>
+                <strong>Domain & Industry:</strong>
+                <p id="prev-domain" style="font-size: 0.95rem; color: var(--text-dark); margin-top: 0.25rem;"></p>
+              </div>
+            </div>
+            
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; gap: 1rem;">
+              <a href="upload-resume.html" class="btn btn-primary" style="flex-grow: 1;">Next: Upload Resumes</a>
+              <button id="use-default-btn" class="btn btn-secondary" style="font-size: 0.8rem;">Use Sample JD</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script src="static/js/upload.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <main class="main-wrapper fade-in-up">
+      <div class="header-panel">
+        <div class="header-title">
+          <h1>Settings & Configurations</h1>
+          <p>Configure API integrations and active semantic matching engines.</p>
+        </div>
+      </div>
+
+      <div class="grid-cols-2" style="gap: 1.5rem;">
+        <!-- AI Engines config -->
+        <div class="card">
+          <h3 style="margin-bottom: 1.5rem;">AI LLM Integration</h3>
+          <div style="background-color: var(--bg-color); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--border-radius); font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.5;">
+            💡 ULTRON AI runs completely **free & offline** using our embedded **Sentence Transformers** engine.<br><br>
+            To activate premium LLM features (AI resume drafting, complex chat summaries), input your API credentials below.
+          </div>
+
+          <form id="api-keys-form">
+            <div class="form-group">
+              <label class="form-label">Google Gemini API Key</label>
+              <input type="password" id="gemini-key" class="form-control" placeholder="AIzaSy...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">OpenAI API Key</label>
+              <input type="password" id="openai-key" class="form-control" placeholder="sk-proj-...">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save API Keys</button>
+          </form>
+        </div>
+
+        <!-- System state & Reset -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="margin-bottom: 1.5rem;">Platform Integration Capabilities</h3>
+            <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1rem;">
+              The platform architecture incorporates pluggable hooks to migrate data easily.
+            </p>
+            <ul style="padding-left: 1.25rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--text-dark);">
+              <li>🚀 <strong>PostgreSQL ready:</strong> Set the connection string in backend env.</li>
+              <li>📅 <strong>ATS Integration hooks:</strong> Pluggable pipeline configurations.</li>
+              <li>📧 <strong>Auto Emailers:</strong> Pre-configured notification layouts.</li>
+            </ul>
+          </div>
+          
+          <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>Reset System</strong>
+              <div style="font-size: 0.8rem; color: var(--text-light);">Clear local SQLite database tables completely.</div>
+            </div>
+            <button id="reset-db-btn" class="btn btn-danger" style="font-size: 0.8rem;">Clear DB Cache</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/auth.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Utils.loadSidebar('settings');
+
+      const keysForm = document.getElementById('api-keys-form');
+      const geminiInput = document.getElementById('gemini-key');
+      const openaiInput = document.getElementById('openai-key');
+      const resetBtn = document.getElementById('reset-db-btn');
+
+      // Load cached keys from localStorage
+      geminiInput.value = localStorage.getItem('GEMINI_API_KEY') || '';
+      openaiInput.value = localStorage.getItem('OPENAI_API_KEY') || '';
+
+      keysForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const gemini = geminiInput.value.trim();
+        const openai = openaiInput.value.trim();
+
+        localStorage.setItem('GEMINI_API_KEY', gemini);
+        localStorage.setItem('OPENAI_API_KEY', openai);
+
+        alert('API keys saved locally! Restart your Python backend for keys to take effect.');
+      });
+
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear your local database caching tables? This clears all jobs and candidates.')) {
+          // Since resetting involves sqlite local file truncation, in mock client
+          // we can just notify user to truncate the ultron_ai.db file.
+          alert('To clear DB completely, stop the backend server and delete the "ultron_ai.db" file inside the backend directory, then restart.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
