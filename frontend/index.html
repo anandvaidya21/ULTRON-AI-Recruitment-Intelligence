@@ -9,27 +9,76 @@
   <link rel="stylesheet" href="static/css/animations.css">
   <style>
     /* Unique Landing Page Specific Styling */
-    .landing-hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      background: radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F7F3ED 100%);
-      position: relative;
-    }
-    .landing-header {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem;
-    }
+    .landing-hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:120px 20px 60px;
+
+    background:radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F7F3ED 100%);
+    position:relative;
+}
+    .landing-header{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(1200px,100%);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:2rem;
+    z-index:100;
+}
+  .landing-header .btn{
+    white-space:nowrap;
+}
+    @media (max-width:768px){
+
+.landing-header{
+    position:relative;
+    left:0;
+    transform:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:16px;
+    padding:24px 20px;
+}
+
+.brand-title{
+    font-size:1.9rem !important;
+}
+
+.hero-tag{
+    margin-top:20px;
+}
+
+.hero-title{
+    font-size:2.1rem;
+    line-height:1.15;
+}
+
+.hero-desc{
+    font-size:1rem;
+    max-width:100%;
+}
+
+.hero-buttons{
+    flex-direction:column;
+    width:100%;
+    max-width:320px;
+}
+
+.hero-buttons .btn{
+    width:100%;
+}
+
+}
     .hero-tag {
       background-color: var(--secondary-color);
       color: var(--primary-color);
