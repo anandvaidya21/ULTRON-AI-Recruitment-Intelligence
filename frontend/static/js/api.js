@@ -3,9 +3,7 @@
  * Standardized client connection configurations.
  */
 
-const API_BASE_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-  ? 'http://localhost:8000/api'
-  : '/api'; // Fallback to same host for deployments
+const API_BASE_URL = "https://ultron-ai-recruitment-intelligence-1.onrender.com/api";
 
 class APIClient {
   static getHeaders() {
@@ -62,19 +60,26 @@ class APIClient {
 
   static async handleResponse(response) {
     if (response.status === 401) {
-      // Automatic session logout on expired tokens
       localStorage.removeItem('ultron_token');
       localStorage.removeItem('ultron_user');
-      if (!window.location.pathname.endsWith('login.html') && !window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') {
+
+      if (
+        !window.location.pathname.endsWith('login.html') &&
+        !window.location.pathname.endsWith('index.html') &&
+        window.location.pathname !== '/'
+      ) {
         window.location.href = 'login.html';
       }
+
       throw new Error('Session expired. Please login again.');
     }
 
     const data = await response.json();
+
     if (!response.ok) {
       throw new Error(data.detail || 'API request failed');
     }
+
     return data;
   }
 }
