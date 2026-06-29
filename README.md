@@ -84,9 +84,11 @@ python -m http.server 3000
 *Open `http://localhost:3000` in your web browser.*
 
 ### 3. Demo Credentials
-Log into the recruiter workspace using the mock credentials provided:
-- **Email:** `recruiter@ultron.ai`
-- **Password:** `password123`
+
+The live demo is protected to prevent unauthorized access.
+For demo credentials, please contact the project owner.
+
+**Email:** **anandvaidya46@gmail.com**
 
 ---
 
