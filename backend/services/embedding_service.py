@@ -17,21 +17,7 @@ MODEL_NAME = "all-MiniLM-L6-v2"  # 90MB, fast, high quality
 
 
 def _get_model():
-    """Lazy load the sentence transformer model."""
-    global _model
-    if _model is None:
-        try:
-            from sentence_transformers import SentenceTransformer
-            logger.info(f"Loading sentence transformer model: {MODEL_NAME}")
-            _model = SentenceTransformer(MODEL_NAME)
-            logger.info("Sentence transformer model loaded successfully.")
-        except ImportError:
-            logger.error("sentence-transformers not installed. Install with: pip install sentence-transformers")
-            _model = None
-        except Exception as e:
-            logger.error(f"Failed to load model: {e}")
-            _model = None
-    return _model
+    return None
 
 
 class EmbeddingService:
