@@ -2,11 +2,14 @@
 ULTRON AI – Rankings & Matching API Router
 Executes semantic matching engine, scores candidates, and yields explainable rankings.
 """
-
+from fastapi.responses import StreamingResponse
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime
 import numpy as np
+import csv
+import io
+
 
 from database import crud
 from database.database import get_db
@@ -98,46 +101,66 @@ def analyze_candidates(request: AnalysisRequest, db: Session = Depends(get_db)):
     }
 
 
-@router.get("/rankings/{job_id}", response_model=RankingResponse)
-def get_rankings(job_id: int, db: Session = Depends(get_db)):
-    """Get sorted list of candidate rankings with full explainability details."""
+@router.get("/rankings/{job_id}/export")
+def export_rankings(job_id: int, db: Session = Depends(get_db)):
+
     job = crud.get_job(db, job_id)
+
     if not job:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Job description with ID {job_id} not found"
+            status_code=404,
+            detail="Job not found"
         )
 
-    # Fetch matching analyses sorted by score descending
     analyses = crud.get_rankings_for_job(db, job_id)
 
-    ranked_candidates = []
-    for rank_idx, analysis in enumerate(analyses):
+    output = io.StringIO()
+
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "Rank",
+        "Candidate Name",
+        "Email",
+        "Overall Score",
+        "Skill Score",
+        "Experience Score",
+        "Project Score",
+        "Education Score",
+        "Industry Score",
+        "Soft Skill Score",
+        "Growth Score",
+        "GitHub Score",
+        "Portfolio Score"
+    ])
+
+    for rank, analysis in enumerate(analyses, start=1):
+
         candidate = crud.get_candidate(db, analysis.candidate_id)
-        if not candidate:
-            continue
 
-        explainability = analysis.analysis_data or {}
-        # Make sure breakdown is present
-        breakdown = explainability.get("score_breakdown", {})
+        writer.writerow([
+            rank,
+            candidate.name if candidate else "",
+            candidate.email if candidate else "",
+            analysis.overall_score,
+            analysis.skill_score,
+            analysis.experience_score,
+            analysis.project_score,
+            analysis.education_score,
+            analysis.industry_score,
+            analysis.soft_skill_score,
+            analysis.growth_score,
+            analysis.github_score,
+            analysis.portfolio_score
+        ])
 
-        ranked_candidates.append(
-            RankedCandidate(
-                rank=rank_idx + 1,
-                candidate_id=candidate.id,
-                candidate_name=candidate.name,
-                candidate_email=candidate.email,
-                overall_score=analysis.overall_score or 0.0,
-                score_breakdown=breakdown,
-                explainability=explainability,
-                parsed_profile=candidate.parsed_profile
-            )
-        )
+    output.seek(0)
 
-    return {
-        "job_id": job.id,
-        "job_title": job.title,
-        "total_candidates": len(ranked_candidates),
-        "rankings": ranked_candidates,
-        "analysis_timestamp": datetime.utcnow()
-    }
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition":
+            f"attachment; filename=candidate_rankings_job_{job_id}.csv"
+        }
+    )
