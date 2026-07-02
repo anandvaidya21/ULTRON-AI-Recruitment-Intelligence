@@ -142,7 +142,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       reAnalyzeBtn.textContent = '🔄 Re-run Analysis';
     }
   });
+  // 5. Download CSV
+const downloadBtn = document.getElementById('downloadCSV');
 
+if (downloadBtn) {
+  downloadBtn.addEventListener('click', () => {
+
+    if (!activeJobId) {
+      alert("Please select a Job first.");
+      return;
+    }
+
+    window.open(
+      `${API_BASE_URL}/rankings/${activeJobId}/export`,
+      "_blank"
+    );
+
+  });
+}
   // Initialize
   loadJobs();
 });
