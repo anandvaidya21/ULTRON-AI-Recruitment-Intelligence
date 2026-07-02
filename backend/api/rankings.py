@@ -127,24 +127,34 @@ def get_rankings(job_id: int, db: Session = Depends(get_db)):
             continue
 
         rankings.append(
-            RankedCandidate(
-                rank=rank,
-                candidate_id=candidate.id,
-                candidate_name=candidate.name,
-                candidate_email=candidate.email,
-                overall_score=analysis.overall_score,
-                score_breakdown={
-                    "skills": analysis.skill_score,
-                    "experience": analysis.experience_score,
-                    "projects": analysis.project_score
-                },
-                explainability=analysis.analysis_data or {}
-            )
-        )
+    RankedCandidate(
+        rank=rank,
+        candidate_id=candidate.id,
+        candidate_name=candidate.name,
+        candidate_email=candidate.email,
+        overall_score=analysis.overall_score,
+        score_breakdown={
+            "overall": analysis.overall_score,
+            "skills": analysis.skill_score,
+            "projects": analysis.project_score,
+            "experience": analysis.experience_score,
+            "education": analysis.education_score,
+            "soft_skills": analysis.soft_skill_score,
+            "industry": analysis.industry_score,
+            "growth": analysis.growth_score,
+            "github": analysis.github_score,
+            "portfolio": analysis.portfolio_score,
+            "certifications": 0
+        },
+        explainability=analysis.analysis_data,
+        parsed_profile=candidate.parsed_profile or {}
+    )
+)
 
     return RankingResponse(
-        job_id=job.id,
-        job_title=job.title,
-        total_candidates=len(rankings),
-        rankings=rankings
-    )
+    job_id=job.id,
+    job_title=job.title,
+    total_candidates=len(rankings),
+    rankings=rankings,
+    analysis_timestamp=datetime.utcnow()
+)
