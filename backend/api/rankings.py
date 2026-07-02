@@ -101,8 +101,11 @@ def analyze_candidates(request: AnalysisRequest, db: Session = Depends(get_db)):
     }
 
 
-@router.get("/rankings/{job_id}/export")
-def export_rankings(job_id: int, db: Session = Depends(get_db)):
+@router.get("/rankings/{job_id}", response_model=RankingResponse)
+def get_rankings(job_id: int, db: Session = Depends(get_db)):
+    """
+    Returns ranked candidates for a given Job Description.
+    """
 
     job = crud.get_job(db, job_id)
 
@@ -114,53 +117,34 @@ def export_rankings(job_id: int, db: Session = Depends(get_db)):
 
     analyses = crud.get_rankings_for_job(db, job_id)
 
-    output = io.StringIO()
-
-    writer = csv.writer(output)
-
-    writer.writerow([
-        "Rank",
-        "Candidate Name",
-        "Email",
-        "Overall Score",
-        "Skill Score",
-        "Experience Score",
-        "Project Score",
-        "Education Score",
-        "Industry Score",
-        "Soft Skill Score",
-        "Growth Score",
-        "GitHub Score",
-        "Portfolio Score"
-    ])
+    rankings = []
 
     for rank, analysis in enumerate(analyses, start=1):
 
         candidate = crud.get_candidate(db, analysis.candidate_id)
 
-        writer.writerow([
-            rank,
-            candidate.name if candidate else "",
-            candidate.email if candidate else "",
-            analysis.overall_score,
-            analysis.skill_score,
-            analysis.experience_score,
-            analysis.project_score,
-            analysis.education_score,
-            analysis.industry_score,
-            analysis.soft_skill_score,
-            analysis.growth_score,
-            analysis.github_score,
-            analysis.portfolio_score
-        ])
+        if not candidate:
+            continue
 
-    output.seek(0)
+        rankings.append(
+            RankedCandidate(
+                rank=rank,
+                candidate_id=candidate.id,
+                candidate_name=candidate.name,
+                candidate_email=candidate.email,
+                overall_score=analysis.overall_score,
+                score_breakdown={
+                    "skills": analysis.skill_score,
+                    "experience": analysis.experience_score,
+                    "projects": analysis.project_score
+                },
+                explainability=analysis.analysis_data or {}
+            )
+        )
 
-    return StreamingResponse(
-        iter([output.getvalue()]),
-        media_type="text/csv",
-        headers={
-            "Content-Disposition":
-            f"attachment; filename=candidate_rankings_job_{job_id}.csv"
-        }
+    return RankingResponse(
+        job_id=job.id,
+        job_title=job.title,
+        total_candidates=len(rankings),
+        rankings=rankings
     )
