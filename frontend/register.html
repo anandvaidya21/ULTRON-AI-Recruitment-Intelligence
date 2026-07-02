@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register – ULTRON AI</title>
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/animations.css">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      background: radial-gradient(circle at 50% 50%, #FFFDF9 0%, #F7F3ED 100%);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-logo span {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+    }
+
+    .login-subtitle {
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    .full-width-btn {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .auth-link-btn {
+      width: 100%;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 1.5rem;
+    }
+
+    .message {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      border: 1px solid transparent;
+    }
+
+    .message.error {
+      display: block;
+      background: #FFF5F5;
+      color: #A63D3D;
+      border-color: #F2C8C8;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(76, 175, 80, 0.08);
+      color: #2E7D32;
+      border-color: rgba(76, 175, 80, 0.2);
+    }
+
+    .auth-link-wrap {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .auth-link-wrap span {
+      display: block;
+      margin-bottom: 0.75rem;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 576px) {
+      .login-box {
+        padding: 1.25rem;
+      }
+
+      .login-logo span {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box card fade-in-up">
+      <div class="login-logo">
+        <span class="brand-title">ULTRON AI</span>
+        <p class="login-subtitle">Enterprise Workspace Registration</p>
+      </div>
+
+      <form id="register-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="full_name">Full Name</label>
+          <input type="text" id="full_name" class="form-control" placeholder="Enter your full name" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="company">Company Name</label>
+          <input type="text" id="company" class="form-control" placeholder="Enter your company name" required autocomplete="organization">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Work Email</label>
+          <input type="email" id="email" class="form-control" placeholder="name@company.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm_password">Confirm Password</label>
+          <input type="password" id="confirm_password" class="form-control" placeholder="Confirm your password" required autocomplete="new-password">
+        </div>
+
+        <div id="form-message" class="message" role="alert" aria-live="polite"></div>
+
+        <button type="submit" class="btn btn-primary full-width-btn" id="register-btn">
+          Create Recruiter Account
+        </button>
+      </form>
+
+      <div class="auth-link-wrap">
+        <span>Already have an account?</span>
+        <a href="login.html" class="btn btn-secondary auth-link-btn">Sign In</a>
+      </div>
+
+      <p class="footer-note">
+        Hiring intelligently using Semantic AI.
+      </p>
+    </div>
+  </div>
+
+  <script src="static/js/api.js"></script>
+  <script src="static/js/register.js"></script>
+</body>
+</html>
